@@ -15,21 +15,19 @@ type Todo struct {
 	CompletedAt time.Time `json:"completed_at"`
 }
 
-func createTodo(title string, taskFile string) (Todo, error) {
+func createTodo(title string) (Todo, error) {
 	newTask := Todo{
 		Title:     title,
 		Status:    false,
 		CreatedAt: time.Now(),
 	}
 
-	fmt.Println(newTask.Title)
-
 	data, err := json.Marshal(newTask)
 	if err != nil {
 		return Todo{}, err
 	}
 
-	err = os.WriteFile(taskFile, data, 0644)
+	err = os.WriteFile("tasks.json", data, 0644)
 	if err != nil {
 		return Todo{}, err
 	}
@@ -38,12 +36,11 @@ func createTodo(title string, taskFile string) (Todo, error) {
 }
 
 func main() {
-	path := os.Getenv("TASK_FILE")
 
-	testTask, err := createTodo("Study today", path)
+	testTask, err := createTodo("Study today\n")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(testTask.Title)
+	fmt.Printf("Test Task: %v", testTask.Title)
 }
