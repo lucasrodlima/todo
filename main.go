@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"time"
 )
@@ -40,4 +41,9 @@ func main() {
 	path := os.Getenv("TASK_FILE")
 
 	testTask, err := createTodo("Study today", path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(testTask.Title)
 }
