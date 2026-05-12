@@ -38,18 +38,28 @@ func createTodo(title string, path string) (Todo, error) {
 }
 
 func main() {
-
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Failed to load environment variables")
 	}
 
-	taskFile := os.Getenv("TASK_FILE")
+	path := os.Getenv("TASK_FILE")
 
-	testTask, err := createTodo("Study today\n", taskFile)
-	if err != nil {
-		log.Fatal(err)
+	args := os.Args
+	if len(args) != 3 {
+		log.Fatal("Incorrect number of arguments")
 	}
 
-	fmt.Printf("Test Task: %v", testTask.Title)
+	command := args[1]
+	title := args[2]
+
+	switch command {
+	case "add":
+		newTask, err := createTodo(title, path)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Printf("Task created!: %v\n", newTask.Title)
+	}
 }
