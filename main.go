@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 type Todo struct {
@@ -15,7 +17,7 @@ type Todo struct {
 	CompletedAt time.Time `json:"completed_at"`
 }
 
-func createTodo(title string) (Todo, error) {
+func createTodo(title string, path string) (Todo, error) {
 	newTask := Todo{
 		Title:     title,
 		Status:    false,
@@ -27,7 +29,7 @@ func createTodo(title string) (Todo, error) {
 		return Todo{}, err
 	}
 
-	err = os.WriteFile("tasks.json", data, 0644)
+	err = os.WriteFile(path, data, 0644)
 	if err != nil {
 		return Todo{}, err
 	}
@@ -37,7 +39,14 @@ func createTodo(title string) (Todo, error) {
 
 func main() {
 
-	testTask, err := createTodo("Study today\n")
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Failed to load environment variables")
+	}
+
+	taskFile := os.Getenv("TASK_FILE")
+
+	testTask, err := createTodo("Study today\n", taskFile)
 	if err != nil {
 		log.Fatal(err)
 	}
