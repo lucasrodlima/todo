@@ -24,12 +24,29 @@ func createTodo(title string, path string) (Todo, error) {
 		CreatedAt: time.Now(),
 	}
 
-	data, err := json.Marshal(newTask)
+	tasksData, err := os.ReadFile(path)
+	if os.IsNotExist(err) {
+		tasksData = []byte("[]")
+	} else if err != nil {
+		return Todo{}, nil
+	}
+
+	var tasks []Todo
+
+	err = json.Unmarshal(tasksData, &tasks)
 	if err != nil {
 		return Todo{}, err
 	}
 
-	err = os.WriteFile(path, data, 0644)
+	tasks = append(tasks, newTask)
+
+	newTasksData, err := json.MarshalIndent(tasks, "", " ")
+
+	if err != nil {
+		return Todo{}, err
+	}
+
+	err = os.WriteFile(path, newTasksData, 0644)
 	if err != nil {
 		return Todo{}, err
 	}
