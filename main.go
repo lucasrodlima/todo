@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -12,7 +14,7 @@ type Todo struct {
 	CompletedAt time.Time `json:"completed_at"`
 }
 
-func newTodo(title string) {
+func createTodo(title string, taskFile string) (Todo, error) {
 	newTask := Todo{
 		Title:     title,
 		Status:    false,
@@ -20,9 +22,22 @@ func newTodo(title string) {
 	}
 
 	fmt.Println(newTask.Title)
+
+	data, err := json.Marshal(newTask)
+	if err != nil {
+		return Todo{}, err
+	}
+
+	err = os.WriteFile(taskFile, data, 0644)
+	if err != nil {
+		return Todo{}, err
+	}
+
+	return newTask, nil
 }
 
 func main() {
-	car := "Honda"
-	fmt.Printf("Hello %v\n", car)
+	path := os.Getenv("TASK_FILE")
+
+	testTask, err := createTodo("Study today", path)
 }
