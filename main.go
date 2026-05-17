@@ -17,7 +17,9 @@ type Todo struct {
 	CompletedAt time.Time `json:"completed_at"`
 }
 
-func createTodo(title string, path string) (Todo, error) {
+// Create enum with pending and completed for status
+
+func createTodo(title string, path string) (*Todo, error) {
 	newTask := Todo{
 		Title:     title,
 		Status:    false,
@@ -28,30 +30,29 @@ func createTodo(title string, path string) (Todo, error) {
 	if os.IsNotExist(err) {
 		tasksData = []byte("[]")
 	} else if err != nil {
-		return Todo{}, nil
+		return &Todo{}, nil
 	}
 
 	var tasks []Todo
 
 	err = json.Unmarshal(tasksData, &tasks)
 	if err != nil {
-		return Todo{}, err
+		return &Todo{}, err
 	}
 
 	tasks = append(tasks, newTask)
 
 	newTasksData, err := json.MarshalIndent(tasks, "", " ")
-
 	if err != nil {
-		return Todo{}, err
+		return &Todo{}, err
 	}
 
 	err = os.WriteFile(path, newTasksData, 0644)
 	if err != nil {
-		return Todo{}, err
+		return &Todo{}, err
 	}
 
-	return newTask, nil
+	return &newTask, nil
 }
 
 func main() {
