@@ -10,11 +10,18 @@ import (
 	"github.com/joho/godotenv"
 )
 
+type TaskStatus int
+
+const (
+	Pending TaskStatus = iota
+	Done
+)
+
 type Todo struct {
-	Title       string    `json:"name"`
-	Status      bool      `json:"status"`
-	CreatedAt   time.Time `json:"created_at"`
-	CompletedAt time.Time `json:"completed_at"`
+	Title       string     `json:"name"`
+	Status      TaskStatus `json:"status"`
+	CreatedAt   time.Time  `json:"created_at"`
+	CompletedAt time.Time  `json:"completed_at"`
 }
 
 // Create enum with pending and completed for status
@@ -22,7 +29,7 @@ type Todo struct {
 func createTodo(title string, path string) (*Todo, error) {
 	newTask := Todo{
 		Title:     title,
-		Status:    false,
+		Status:    Pending,
 		CreatedAt: time.Now(),
 	}
 
