@@ -8,8 +8,9 @@ import (
 )
 
 var commands = map[string]func([]string) error{
-	"add":  createTodo,
-	"list": listTodos,
+	"add":      createTodo,
+	"list":     listTodos,
+	"complete": completeTodo,
 }
 
 func main() {

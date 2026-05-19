@@ -37,10 +37,10 @@ func listTodos(args []string) error {
 	for _, task := range tasks {
 		switch task.Status {
 		case Pending:
-			fmt.Printf("%v | PENDING | Created At: %v\n", task.Title, task.CreatedAt)
+			fmt.Printf("%v - %v | PENDING | Created At: %v\n", task.Id, task.Title, task.CreatedAt)
 
 		case Done:
-			fmt.Printf("%v | DONE | Created At: %v | Completed At: %v\n", task.Title, task.CreatedAt, task.CompletedAt)
+			fmt.Printf("%v - %v | DONE | Created At: %v | Completed At: %v\n", task.Id, task.Title, task.CreatedAt, task.CompletedAt)
 		}
 	}
 
