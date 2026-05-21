@@ -13,6 +13,9 @@ var commands = map[string]func([]string) error{
 	"complete": completeTodo,
 }
 
+// TODO: make it so a completed task cant be
+// completed again, changing it's completedAt time
+
 func main() {
 	err := godotenv.Load()
 	if err != nil {
