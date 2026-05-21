@@ -38,7 +38,7 @@ func SaveTask(newTask *Todo) error {
 
 	tasks = append(tasks, newTask)
 
-	newTasksData, err := json.MarshalIndent(tasks, "", " ")
+	newTasksData, err := json.MarshalIndent(tasks, "", "    ")
 	if err != nil {
 		return err
 	}
@@ -73,7 +73,7 @@ func ChangeStatus(completeId int64) error {
 		}
 	}
 
-	newTasksData, err := json.MarshalIndent(todos, "", " ")
+	newTasksData, err := json.MarshalIndent(todos, "", "    ")
 	if err != nil {
 		return err
 	}
