@@ -26,10 +26,10 @@ func List(args []string) error {
 	for _, t := range todos {
 		switch t.Status {
 		case task.Pending:
-			fmt.Printf("%v - %v | PENDING | Created At: %v\n", t.Id, t.Title, t.CreatedAt)
+			fmt.Printf("\u274C %v - %v | Created At: %v\n", t.Id, t.Title, t.CreatedAt.Format("02 Jan 2006 15:04"))
 
 		case task.Done:
-			fmt.Printf("%v - %v | DONE | Created At: %v | Completed At: %v\n", t.Id, t.Title, t.CreatedAt, t.CompletedAt)
+			fmt.Printf("\u2705 %v - %v | Created At: %v | Completed At: %v\n", t.Id, t.Title, t.CreatedAt.Format("02 Jan 2006 15:04"), t.CompletedAt.Format("02 Jan 2006 15:04"))
 		}
 	}
 
