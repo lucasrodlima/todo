@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 )
 
 func completeTodo(args []string) error {
@@ -37,6 +38,9 @@ func completeTodo(args []string) error {
 		if task.Id == complete_id {
 			task.Status = Done
 			fmt.Printf("Task %v - %v Completed!\n", task.Id, task.Title)
+
+			now := time.Now()
+			task.CompletedAt = now
 		}
 	}
 
