@@ -5,23 +5,23 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/lucasrodlima/todo/internal/cli"
 )
 
 var commands = map[string]func([]string) error{
-	"add":      createTodo,
-	"list":     listTodos,
-	"complete": completeTodo,
+	"add":      cli.Add,
+	"list":     cli.List,
+	"complete": cli.Complete,
 }
 
-// TODO: make it so a completed task cant be
-// completed again, changing it's completedAt time
-
 func main() {
-	err := godotenv.Load()
-	if err != nil {
+	if err := godotenv.Load(); err != nil {
 		log.Fatal("Failed to load environment variables")
 	}
 
+	if len(os.Args) == 1 {
+		log.Fatal("No command")
+	}
 	args := os.Args[1:]
 
 	if fn, ok := commands[args[0]]; ok {
