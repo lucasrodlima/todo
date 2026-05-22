@@ -7,8 +7,14 @@ import (
 )
 
 func List(args []string) error {
-	if len(args) != 1 {
+	var filter string
+	if len(args) > 2 {
 		return fmt.Errorf("Wrong argument number!")
+	} else if len(args) == 2 {
+		if args[1] != "--done" && args[1] != "--pending" {
+			return fmt.Errorf("Flag does not exist! Use --done or --pending")
+		}
+		filter = args[1]
 	}
 
 	todos, err := task.GetTasks()
@@ -21,15 +27,22 @@ func List(args []string) error {
 		return nil
 	}
 
-	fmt.Println("TASKS:")
+	// var filter string
+	// if filter, ok = args[1]; filter != "--done" || filter != "--pending" {
+	// 	return fmt.Errorf("Improper flag: user --done or --pending")
+	// }
 
 	for _, t := range todos {
 		switch t.Status {
 		case task.Pending:
-			fmt.Printf("\u274C %v - %v | Created At: %v\n", t.Id, t.Title, t.CreatedAt.Format("02 Jan 2006 15:04"))
+			if filter != "--done" {
+				fmt.Printf("\u274C %v - %v | Created At: %v\n", t.Id, t.Title, t.CreatedAt.Format("02 Jan 2006 15:04"))
+			}
 
 		case task.Done:
-			fmt.Printf("\u2705 %v - %v | Created At: %v | Completed At: %v\n", t.Id, t.Title, t.CreatedAt.Format("02 Jan 2006 15:04"), t.CompletedAt.Format("02 Jan 2006 15:04"))
+			if filter != "--pending" {
+				fmt.Printf("\u2705 %v - %v | Created At: %v | Completed At: %v\n", t.Id, t.Title, t.CreatedAt.Format("02 Jan 2006 15:04"), t.CompletedAt.Format("02 Jan 2006 15:04"))
+			}
 		}
 	}
 
