@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -26,7 +27,7 @@ func main() {
 
 	if fn, ok := commands[args[0]]; ok {
 		if err := fn(args); err != nil {
-			log.Fatal(err)
+			log.Fatal(fmt.Errorf("Error running the program: %w", err))
 		}
 	} else {
 		log.Fatal("Wrong command!")

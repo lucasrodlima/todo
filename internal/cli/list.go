@@ -27,11 +27,6 @@ func List(args []string) error {
 		return nil
 	}
 
-	// var filter string
-	// if filter, ok = args[1]; filter != "--done" || filter != "--pending" {
-	// 	return fmt.Errorf("Improper flag: user --done or --pending")
-	// }
-
 	for _, t := range todos {
 		switch t.Status {
 		case task.Pending:
